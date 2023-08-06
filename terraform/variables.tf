@@ -24,7 +24,7 @@ variable "pm_user" {
   default     = "root@pam"
 }
 
-variable "template: {
+variable "template" {
     description = "Default Template to clone from"
     type        = string
     default     = "Debian12-Template" 
