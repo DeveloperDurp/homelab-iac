@@ -36,7 +36,7 @@ variable "environment" {
 }
 
 variable "ipprefix" {
-    type = number
+  type = number
 }
 
 variable "k3master" {
