@@ -30,6 +30,11 @@ variable "template" {
     default     = "Debian12-Template" 
 }
 
+variable "environment" {
+    description = "environment"
+    type        = string
+}
+
 variable "k3master" {
   description = "Defaults of master nodes in K3S"
   type = object({
