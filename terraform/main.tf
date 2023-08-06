@@ -48,7 +48,7 @@ resource "proxmox_vm_qemu" "k3server" {
   count       = var.k3server.count
   ciuser      = "administrator"
   vmid        = "20${var.ipprefix}${var.k3server.ip[count.index]}"
-  name        = var.k3server.name[count.index]
+  name        = "${var.k3server.name[count.index]}-${var.environment}"
   target_node = var.k3server.node[count.index]
   clone       = var.template
   qemu_os     = "other"
