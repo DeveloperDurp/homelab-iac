@@ -25,40 +25,40 @@ variable "pm_user" {
 }
 
 variable "template" {
-    description = "Default Template to clone from"
-    type        = string
-    default     = "Debian12-Template" 
+  description = "Default Template to clone from"
+  type        = string
+  default     = "Debian12-Template" 
 }
 
 variable "environment" {
-    description = "environment"
-    type        = string
+  description = "environment"
+  type        = string
 }
 
 variable "k3master" {
   description = "Defaults of master nodes in K3S"
   type = object({
-    count    = number
-    name     = list(string)
-    cores    = number
-    memory   = number
-    drive    = string
-    storage  = string
-    node     = list(string)
-    ip       = list(number)
+    count   = number
+    name    = list(string)
+    cores   = number
+    memory  = number
+    drive   = string
+    storage = string
+    node    = list(string)
+    ip      = list(number)
   })
 }
 
 variable "k3server" {
   description = "Defaults of master nodes in K3S"
   type = object({
-    count    = number
-    name     = list(string)
-    cores    = number
-    memory   = number
-    drive    = string
-    storage  = string
-    node     = list(string)
-    ip       = list(number)
+    count   = number
+    name    = list(string)
+    cores   = number
+    memory  = number
+    drive   = string
+    storage = string
+    node    = list(string)
+    ip      = list(number)
   })
 }
