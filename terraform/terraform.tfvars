@@ -9,19 +9,17 @@ k3master = {
   memory   = "4096"
   drive    = "20G"
   storage  = "ssd-domains"
-  template = var.template
   node     = ["overlord"]
   ip       = ["10"]
 }
 
 k3server = {
-  count    = 2
-  name     = ["node01", "node02"]
+  count    = 3
+  name     = ["node01", "node02", "node03"]
   cores    = 4
   memory   = "4096"
   drive    = "60G"
   storage  = "ssd-domains"
-  template = var.template
   node     = ["mothership", "mothership"]
   ip       = ["20", "21"]
 }

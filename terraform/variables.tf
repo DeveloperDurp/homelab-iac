@@ -24,6 +24,12 @@ variable "pm_user" {
   default     = "root@pam"
 }
 
+variable "template: {
+    description = "Default Template to clone from"
+    type        = string
+    default     = "Debian12-Template" 
+}
+
 variable "k3master" {
   description = "Defaults of master nodes in K3S"
   type = object({
@@ -33,7 +39,6 @@ variable "k3master" {
     memory   = number
     drive    = string
     storage  = string
-    template = string
     node     = list(string)
     ip       = list(number)
   })
@@ -48,7 +53,6 @@ variable "k3server" {
     memory   = number
     drive    = string
     storage  = string
-    template = string
     node     = list(string)
     ip       = list(number)
   })
