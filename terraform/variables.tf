@@ -27,7 +27,7 @@ variable "pm_user" {
 variable "template" {
   description = "Default Template to clone from"
   type        = string
-  default     = "Debian12-Template" 
+  default     = "Debian12-Template"
 }
 
 variable "environment" {
