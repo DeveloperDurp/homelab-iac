@@ -4,7 +4,7 @@
 resource "proxmox_vm_qemu" "k3master" {
   count       = var.k3master.count
   ciuser      = "administrator"
-  vmid        = "20${var.k3master.ip[count.index]}"
+  vmid        = "20${var.ipprefix}${var.k3server[count.index]}"
   name        = "${var.k3master.name[count.index]}-${var.environment}"
   target_node = var.k3master.node[count.index]
   clone       = var.template
@@ -47,7 +47,7 @@ resource "proxmox_vm_qemu" "k3master" {
 resource "proxmox_vm_qemu" "k3server" {
   count       = var.k3server.count
   ciuser      = "administrator"
-  vmid        = "20${var.k3server.ip[count.index]}"
+  vmid        = "20${var.ipprefix}${var.k3server[count.index] + 1}"
   name        = var.k3server.name[count.index]
   target_node = var.k3server.node[count.index]
   clone       = var.template
