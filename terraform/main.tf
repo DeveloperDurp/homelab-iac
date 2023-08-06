@@ -7,7 +7,7 @@ resource "proxmox_vm_qemu" "k3master" {
   vmid        = "20${var.k3master.ip[count.index]}"
   name        = "${var.k3master.name[count.index]}-${var.environment}"
   target_node = var.k3master.node[count.index]
-  clone       = var.k3master.template
+  clone       = var.template
   qemu_os     = "other"
   full_clone  = true
   os_type     = "cloud-init"
@@ -50,7 +50,7 @@ resource "proxmox_vm_qemu" "k3server" {
   vmid        = "20${var.k3server.ip[count.index]}"
   name        = var.k3server.name[count.index]
   target_node = var.k3server.node[count.index]
-  clone       = var.k3server.template
+  clone       = var.template
   qemu_os     = "other"
   full_clone  = true
   os_type     = "cloud-init"
