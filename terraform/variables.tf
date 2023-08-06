@@ -49,7 +49,6 @@ variable "k3master" {
     drive   = string
     storage = string
     node    = list(string)
-    ip      = list(number)
   })
 }
 
@@ -63,6 +62,5 @@ variable "k3server" {
     drive   = string
     storage = string
     node    = list(string)
-    ip      = list(number)
   })
 }
