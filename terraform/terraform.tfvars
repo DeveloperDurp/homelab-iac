@@ -20,6 +20,6 @@ k3server = {
   memory  = "4096"
   drive   = "60G"
   storage = "ssd-domains"
-  node    = ["mothership", "mothership"]
+  node    = ["mothership", "mothership", "mothership"]
   ip      = ["1", "2", "3"]
 }
