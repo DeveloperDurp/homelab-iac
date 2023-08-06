@@ -35,6 +35,10 @@ variable "environment" {
   type        = string
 }
 
+variable "ipprefix" {
+    type = number
+}
+
 variable "k3master" {
   description = "Defaults of master nodes in K3S"
   type = object({

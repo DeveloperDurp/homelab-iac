@@ -10,7 +10,6 @@ k3master = {
   drive   = "20G"
   storage = "ssd-domains"
   node    = ["overlord"]
-  ip      = ["10"]
 }
 
 k3server = {
@@ -21,5 +20,4 @@ k3server = {
   drive   = "60G"
   storage = "ssd-domains"
   node    = ["mothership", "mothership"]
-  ip      = ["20", "21"]
 }
