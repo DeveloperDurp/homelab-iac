@@ -16,7 +16,7 @@ resource "proxmox_vm_qemu" "k3smaster" {
   memory      = local.k3smaster.memory
   scsihw      = "virtio-scsi-pci"
   #bootdisk    = "scsi0"
-  boot    = "order=virtio0"
+  boot    = "order=scsi0"
   onboot  = true
   sshkeys = local.sshkeys
   vga {
@@ -74,7 +74,7 @@ resource "proxmox_vm_qemu" "k3sserver" {
   memory      = local.k3sserver.memory
   scsihw      = "virtio-scsi-pci"
   #bootdisk    = "scsi0"
-  boot    = "order=virtio0"
+  boot    = "order=scsi0"
   onboot  = true
   sshkeys = local.sshkeys
   vga {
