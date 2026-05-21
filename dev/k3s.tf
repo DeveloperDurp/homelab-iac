@@ -34,8 +34,8 @@ resource "proxmox_vm_qemu" "k3smaster" {
         }
       }
     }
-    virtio {
-      virtio0 {
+    scsi {
+      scsi0 {
         disk {
           size    = local.k3smaster.drive
           format  = local.format
@@ -92,8 +92,8 @@ resource "proxmox_vm_qemu" "k3sserver" {
         }
       }
     }
-    virtio {
-      virtio0 {
+    scsi {
+      scsi0 {
         disk {
           size    = local.k3sserver.drive
           format  = local.format
