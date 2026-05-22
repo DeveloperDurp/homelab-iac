@@ -30,20 +30,20 @@ locals {
   gateway   = "192.168.${local.vlan}.1"
   vlan      = 10
   control = {
-    tags    = "control_dev"
-    count   = 3
-    name    = [
-      "control01-dev", 
-      "control02-dev", 
+    tags  = "control_dev"
+    count = 3
+    name = [
+      "control01-dev",
+      "control02-dev",
       "control03-dev"
     ]
     cores   = 2
     memory  = "4096"
     drive   = 20
     storage = "cache-domains"
-    node    = [
-      "mothership", 
-      "overlord", 
+    node = [
+      "mothership",
+      "overlord",
       "vanguard"
     ]
     ip = [
@@ -53,20 +53,20 @@ locals {
     ]
   }
   worker = {
-    tags    = "worker_dev"
-    count   = 3
-    name    = [
-      "worker01-dev", 
-      "worker02-dev", 
+    tags  = "worker_dev"
+    count = 3
+    name = [
+      "worker01-dev",
+      "worker02-dev",
       "worker03-dev"
     ]
     cores   = 4
     memory  = "8192"
     drive   = 120
     storage = "cache-domains"
-    node    = [
-      "mothership", 
-      "overlord", 
+    node = [
+      "mothership",
+      "overlord",
       "vanguard"
     ]
     ip = [
