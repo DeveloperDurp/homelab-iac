@@ -23,7 +23,7 @@ resource "talos_machine_configuration_apply" "cp_config_apply" {
 
 data "talos_machine_configuration" "machineconfig_worker" {
   cluster_name     = local.talos.cluster_name
-  cluster_endpoint = "https://${local.talos.dns}:6443"
+  cluster_endpoint = "https://${local.talos.cluster_dns}:6443"
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
 }
