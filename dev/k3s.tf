@@ -1,21 +1,32 @@
-resource "proxmox_vm_qemu" "k3smaster" {
-  count       = local.k3smaster.count
+resource "proxmox_vm_qemu" "control" {
+  count       = local.control.count
   ciuser      = "administrator"
-  vmid        = "${local.vlan}${local.k3smaster.ip[count.index]}"
-  name        = local.k3smaster.name[count.index]
-  target_node = local.k3smaster.node[count.index]
+  description = "Managed by OpenTofu"
+  vmid        = "${local.vlan}${local.control.ip[count.index]}"
+  name        = local.control.name[count.index]
+  target_node = local.control.node[count.index]
   clone       = local.template
-  tags        = local.k3smaster.tags
-  qemu_os     = "l26"
+  tags        = local.control.tags
+
+  operating_system {
+    type = "l26"
+  }
+
   full_clone  = true
   os_type     = "cloud-init"
-  agent       = 1
-  cores       = local.k3smaster.cores
+
+  agent {
+    enabled = true
+  }
+  cpu {
+    cores = local.control.cores
+    type = "x86-64-v2-AES"
+  }
+
   sockets     = 1
   cpu_type    = "host"
-  memory      = local.k3smaster.memory
+  memory      = local.control.memory
   scsihw      = "virtio-scsi-pci"
-  #bootdisk    = "scsi0"
   boot    = "order=scsi0"
   onboot  = true
   sshkeys = local.sshkeys
@@ -30,16 +41,16 @@ resource "proxmox_vm_qemu" "k3smaster" {
     ide {
       ide2 {
         cloudinit {
-          storage = local.k3smaster.storage
+          storage = local.control.storage
         }
       }
     }
     scsi {
       scsi0 {
         disk {
-          size    = local.k3smaster.drive
+          size    = local.control.drive
           format  = local.format
-          storage = local.k3smaster.storage
+          storage = local.control.storage
         }
       }
     }
@@ -50,30 +61,42 @@ resource "proxmox_vm_qemu" "k3smaster" {
     bridge = "vmbr0"
     tag    = local.vlan
   }
+
   #Cloud Init Settings
-  ipconfig0    = "ip=192.168.${local.vlan}.${local.k3smaster.ip[count.index]}/24,gw=192.168.${local.vlan}.1"
+  ipconfig0    = "ip=192.168.${local.vlan}.${local.control.ip[count.index]}/24,gw=192.168.${local.vlan}.1"
   searchdomain = "durp.loc"
   nameserver   = local.dnsserver
 }
 
-resource "proxmox_vm_qemu" "k3sserver" {
-  count       = local.k3sserver.count
+resource "proxmox_vm_qemu" "worker" {
+  count       = local.worker.count
   ciuser      = "administrator"
-  vmid        = "${local.vlan}${local.k3sserver.ip[count.index]}"
-  name        = local.k3sserver.name[count.index]
-  target_node = local.k3sserver.node[count.index]
+  description = "Managed by OpenTofu"
+  vmid        = "${local.vlan}${local.worker.ip[count.index]}"
+  name        = local.worker.name[count.index]
+  target_node = local.worker.node[count.index]
   clone       = local.template
-  tags        = local.k3sserver.tags
-  qemu_os     = "l26"
+  tags        = local.worker.tags
+
+  operating_system {
+    type = "l26"
+  }
+
   full_clone  = true
   os_type     = "cloud-init"
-  agent       = 1
-  cores       = local.k3sserver.cores
+
+  agent {
+    enabled = true
+  }
+  cpu {
+    cores = local.worker.cores
+    type = "x86-64-v2-AES"
+  }
+
   sockets     = 1
   cpu_type    = "host"
-  memory      = local.k3sserver.memory
+  memory      = local.worker.memory
   scsihw      = "virtio-scsi-pci"
-  #bootdisk    = "scsi0"
   boot    = "order=scsi0"
   onboot  = true
   sshkeys = local.sshkeys
@@ -88,16 +111,16 @@ resource "proxmox_vm_qemu" "k3sserver" {
     ide {
       ide2 {
         cloudinit {
-          storage = local.k3sserver.storage
+          storage = local.worker.storage
         }
       }
     }
     scsi {
       scsi0 {
         disk {
-          size    = local.k3sserver.drive
+          size    = local.worker.drive
           format  = local.format
-          storage = local.k3sserver.storage
+          storage = local.worker.storage
         }
       }
     }
@@ -108,8 +131,9 @@ resource "proxmox_vm_qemu" "k3sserver" {
     bridge = "vmbr0"
     tag    = local.vlan
   }
+
   #Cloud Init Settings
-  ipconfig0    = "ip=192.168.${local.vlan}.${local.k3sserver.ip[count.index]}/24,gw=192.168.${local.vlan}.1"
+  ipconfig0    = "ip=192.168.${local.vlan}.${local.worker.ip[count.index]}/24,gw=192.168.${local.vlan}.1"
   searchdomain = "durp.loc"
   nameserver   = local.dnsserver
 }

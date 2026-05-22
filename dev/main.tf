@@ -24,8 +24,8 @@ locals {
   format    = "raw"
   dnsserver = "192.168.10.1"
   vlan      = 10
-  k3smaster = {
-    tags    = "k3s_dev"
+  control = {
+    tags    = "control_dev"
     count   = 3
     name    = ["master01-dev", "master02-dev", "master03-dev"]
     cores   = 2
@@ -35,8 +35,8 @@ locals {
     node    = ["mothership", "overlord", "vanguard"]
     ip      = ["11", "12", "13"]
   }
-  k3sserver = {
-    tags    = "k3s_dev"
+  worker = {
+    tags    = "worker_dev"
     count   = 3
     name    = ["node01-dev", "node02-dev", "node03-dev"]
     cores   = 4
