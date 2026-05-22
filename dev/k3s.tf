@@ -7,29 +7,21 @@ resource "proxmox_vm_qemu" "control" {
   target_node = local.control.node[count.index]
   clone       = local.template
   tags        = local.control.tags
-
-  operating_system {
-    type = "l26"
-  }
-
+  qemu_os     = "l26"
   full_clone  = true
   os_type     = "cloud-init"
-
-  agent {
-    enabled = true
-  }
+  agent       = 1
   cpu {
     cores = local.control.cores
-    type = "x86-64-v2-AES"
+    type  = "x86-64-v2-AES"
   }
-
-  sockets     = 1
-  cpu_type    = "host"
-  memory      = local.control.memory
-  scsihw      = "virtio-scsi-pci"
-  boot    = "order=scsi0"
-  onboot  = true
-  sshkeys = local.sshkeys
+  sockets  = 1
+  cpu_type = "host"
+  memory   = local.control.memory
+  scsihw   = "virtio-scsi-pci"
+  boot     = "order=scsi0"
+  onboot   = true
+  sshkeys  = local.sshkeys
   vga {
     type = "serial0"
   }
@@ -63,7 +55,7 @@ resource "proxmox_vm_qemu" "control" {
   }
 
   #Cloud Init Settings
-  ipconfig0    = "ip=192.168.${local.vlan}.${local.control.ip[count.index]}/24,gw=192.168.${local.vlan}.1"
+  ipconfig0    = "ip=${local.control.ip[count.index]}/24,gw=${local.gateway}"
   searchdomain = "durp.loc"
   nameserver   = local.dnsserver
 }
@@ -77,29 +69,21 @@ resource "proxmox_vm_qemu" "worker" {
   target_node = local.worker.node[count.index]
   clone       = local.template
   tags        = local.worker.tags
-
-  operating_system {
-    type = "l26"
-  }
-
+  qemu_os     = "l26"
   full_clone  = true
   os_type     = "cloud-init"
-
-  agent {
-    enabled = true
-  }
+  agent       = 1
   cpu {
     cores = local.worker.cores
-    type = "x86-64-v2-AES"
+    type  = "x86-64-v2-AES"
   }
-
-  sockets     = 1
-  cpu_type    = "host"
-  memory      = local.worker.memory
-  scsihw      = "virtio-scsi-pci"
-  boot    = "order=scsi0"
-  onboot  = true
-  sshkeys = local.sshkeys
+  sockets  = 1
+  cpu_type = "host"
+  memory   = local.worker.memory
+  scsihw   = "virtio-scsi-pci"
+  boot     = "order=scsi0"
+  onboot   = true
+  sshkeys  = local.sshkeys
   vga {
     type = "serial0"
   }
@@ -133,7 +117,7 @@ resource "proxmox_vm_qemu" "worker" {
   }
 
   #Cloud Init Settings
-  ipconfig0    = "ip=192.168.${local.vlan}.${local.worker.ip[count.index]}/24,gw=192.168.${local.vlan}.1"
+  ipconfig0    = "ip=${local.control.ip[count.index]}/24,gw=${local.gateway}"
   searchdomain = "durp.loc"
   nameserver   = local.dnsserver
 }
