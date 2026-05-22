@@ -14,7 +14,7 @@ data "talos_machine_configuration" "machineconfig_cp" {
 }
 
 resource "talos_machine_configuration_apply" "cp_config_apply" {
-  depends_on                  = [proxmox_virtual_environment_vm.talos_cp_01]
+  depends_on                  = [proxmox_vm_qemu.control]
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_cp.machine_configuration
   count                       = local.control.count
@@ -22,14 +22,14 @@ resource "talos_machine_configuration_apply" "cp_config_apply" {
 }
 
 data "talos_machine_configuration" "machineconfig_worker" {
-  cluster_name     = var.cluster_name
+  cluster_name     = var.talos.cluster_name
   cluster_endpoint = "https://${local.talos.dns}:6443"
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
 }
 
 resource "talos_machine_configuration_apply" "worker_config_apply" {
-  depends_on                  = [proxmox_virtual_environment_vm.talos_worker_01]
+  depends_on                  = [proxmox_vm_qemu.worker]
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_worker.machine_configuration
   count                       = local.worker.count
