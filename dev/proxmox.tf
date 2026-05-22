@@ -15,7 +15,6 @@ resource "proxmox_vm_qemu" "control" {
     cores = local.control.cores
     type  = "x86-64-v2-AES"
   }
-  cpu_type = "host"
   memory   = local.control.memory
   scsihw   = "virtio-scsi-pci"
   boot     = "order=scsi0"
@@ -76,7 +75,6 @@ resource "proxmox_vm_qemu" "worker" {
     cores = local.worker.cores
     type  = "x86-64-v2-AES"
   }
-  cpu_type = "host"
   memory   = local.worker.memory
   scsihw   = "virtio-scsi-pci"
   boot     = "order=scsi0"

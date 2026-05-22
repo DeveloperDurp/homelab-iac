@@ -18,7 +18,7 @@ resource "talos_machine_configuration_apply" "cp_config_apply" {
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_cp.machine_configuration
   count                       = local.control.count
-  nodes                       = local.control.ip
+  node                        = local.control.ip[count.index]
 }
 
 data "talos_machine_configuration" "machineconfig_worker" {
@@ -33,7 +33,7 @@ resource "talos_machine_configuration_apply" "worker_config_apply" {
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_worker.machine_configuration
   count                       = local.worker.count
-  nodes                       = local.worker.ip
+  node                        = local.worker.ip[count.index]
 }
 
 resource "talos_machine_bootstrap" "bootstrap" {
