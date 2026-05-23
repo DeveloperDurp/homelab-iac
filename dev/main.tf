@@ -54,7 +54,7 @@ locals {
     ip = [
       "192.168.${local.vlan}.11",
       "192.168.${local.vlan}.12",
-      "192.168.${local.vlan}.12"
+      "192.168.${local.vlan}.13"
     ]
   }
   worker = {
