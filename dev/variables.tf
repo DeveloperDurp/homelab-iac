@@ -12,3 +12,8 @@ variable "pm_user" {
   description = "Username to Proxmox provider"
   type        = string
 }
+
+variable "gitlab_token" {
+  description = "Gitlab Token"
+  type        = string
+}

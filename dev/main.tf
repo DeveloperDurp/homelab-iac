@@ -9,7 +9,15 @@ terraform {
       source  = "siderolabs/talos"
       version = "0.11.0"
     }
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+      version = "19.0"
+    }
   }
+}
+
+provider "gitlab" {
+  token = var.gitlab_token
 }
 
 provider "proxmox" {
