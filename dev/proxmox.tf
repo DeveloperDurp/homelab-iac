@@ -1,3 +1,28 @@
+provider "proxmox" {
+  pm_parallel                 = 1
+  pm_tls_insecure             = true
+  pm_api_url                  = var.pm_api_url
+  pm_user                     = var.pm_user
+  pm_password                 = var.pm_password
+  pm_debug                    = false
+  pm_minimum_permission_check = false
+}
+
+variable "pm_api_url" {
+  description = "API URL to Proxmox provider"
+  type        = string
+}
+
+variable "pm_password" {
+  description = "Passowrd to Proxmox provider"
+  type        = string
+}
+
+variable "pm_user" {
+  description = "UIsername to Proxmox provider"
+  type        = string
+}
+
 resource "proxmox_vm_qemu" "control" {
   count       = local.control.count
   ciuser      = "administrator"

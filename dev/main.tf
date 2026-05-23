@@ -13,25 +13,17 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "19.0"
     }
+    argocd = {
+      source  = "argoproj-labs/argocd"
+      version = "7.15.3"
+    }
   }
 }
 
-provider "gitlab" {
-  token    = var.gitlab_token
-  base_url = "https://gitlab.durp.info/api/v4/"
-}
-
-provider "proxmox" {
-  pm_parallel                 = 1
-  pm_tls_insecure             = true
-  pm_api_url                  = var.pm_api_url
-  pm_user                     = var.pm_user
-  pm_password                 = var.pm_password
-  pm_debug                    = false
-  pm_minimum_permission_check = false
-}
-
 locals {
+  gitlab = {
+    iacRepoId = "7"
+  }
   sshkeys   = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDEphzWgwUZnvL6E5luKLt3WO0HK7Kh63arSMoNl5gmjzXyhG1DDW0OKfoIl0T+JZw/ZjQ7iii6tmSLFRk6nuYCldqe5GVcFxvTzX4/xGEioAyG0IiUGKy6s+9xzO8QXF0EtSNPH0nfHNKcCjgwWAzM+Lt6gW0Vqs+aU5ICuDiEchmvYPz+rBaVldJVTG7m3ogKJ2aIF7HU/pCPp5l0E9gMOw7s0ABijuc3KXLEWCYgL39jIST6pFH9ceRLmu8Xy5zXHAkkEEauY/e6ld0hlzLadiUD7zYJMdDcm0oRvenYcUlaUl9gS0569IpfsJsjCejuqOxCKzTHPJDOT0f9TbIqPXkGq3s9oEJGpQW+Z8g41BqRpjBCdBk+yv39bzKxlwlumDwqgx1WP8xxKavAWYNqNRG7sBhoWwtxYEOhKXoLNjBaeDRnO5OY5AQJvONWpuByyz0R/gTh4bOFVD+Y8WWlKbT4zfhnN70XvapRsbZiaGhJBPwByAMGg6XxSbC6xtbyligVGCEjCXbTLkeKq1w0DuItY+FBGO3J2k90OiciTVSeyiVz9J/Y03UB0gHdsMCoVNrj+9QWfrTLDhM7D5YrXUt5nj2LQTcbtf49zoQXWxUhozlg42E/FJU/Yla7y55qWizAEVyP2/Ks/PHrF679k59HNd2IJ/aicA9QnmWtLQ== ansible"
   template  = "tails-Template"
   format    = "raw"
