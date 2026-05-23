@@ -8,7 +8,7 @@ data "talos_client_configuration" "talosconfig" {
 
 data "talos_machine_configuration" "machineconfig_cp" {
   cluster_name     = local.talos.cluster_name
-  cluster_endpoint = "https://${local.talos.cluster_name}:6443"
+  cluster_endpoint = "https://${local.talos.cluster_dns}:6443"
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
 }
@@ -49,12 +49,6 @@ data "talos_cluster_health" "health" {
   worker_nodes         = local.worker.ip
   endpoints            = data.talos_client_configuration.talosconfig.endpoints
 }
-
-#data "talos_cluster_kubeconfig" "kubeconfig" {
-#  depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
-#  client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-#  node                 = local.control.ip[0]
-#}
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
   depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
