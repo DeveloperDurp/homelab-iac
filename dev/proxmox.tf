@@ -24,7 +24,7 @@ resource "proxmox_vm_qemu" "control" {
     shutdown_timeout = -1
     startup_delay    = -1
   }
-  sshkeys            = local.sshkeys
+  sshkeys = local.sshkeys
   vga {
     type = "serial0"
   }
@@ -89,7 +89,7 @@ resource "proxmox_vm_qemu" "worker" {
     shutdown_timeout = -1
     startup_delay    = -1
   }
-  sshkeys            = local.sshkeys
+  sshkeys = local.sshkeys
   vga {
     type = "serial0"
   }
