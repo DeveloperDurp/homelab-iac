@@ -30,5 +30,5 @@ resource "argocd_cluster" "dev_cluster" {
 
 # Using the kubeconfig generated in talos.tf
 data "utils_kubeconfig" "dev" {
-  kubeconfig = output.kubeconfig.kubeconfig_raw
+  kubeconfig = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
 }
