@@ -113,7 +113,7 @@ resource "proxmox_vm_qemu" "worker" {
   }
 
   #Cloud Init Settings
-  ipconfig0    = "ip=${local.control.ip[count.index]}/24,gw=${local.gateway}"
+  ipconfig0    = "ip=${local.worker.ip[count.index]}/24,gw=${local.gateway}"
   searchdomain = "durp.loc"
   nameserver   = local.dnsserver
 }
