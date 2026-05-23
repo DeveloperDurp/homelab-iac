@@ -6,6 +6,7 @@ variable "argocd_token" {
 provider "argocd" {
   server_addr = "argocd.infra.durp.info:443"
   auth_token  = var.argocd_token
+  insecure    = true
 }
 
 resource "argocd_cluster" "dev_cluster" {
