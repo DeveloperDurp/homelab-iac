@@ -17,10 +17,6 @@ terraform {
       source  = "argoproj-labs/argocd"
       version = "7.15.3"
     }
-    utils = {
-      source  = "cloudposse/utils"
-      version = "1.4.0"
-    }
   }
 }
 

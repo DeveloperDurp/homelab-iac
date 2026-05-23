@@ -13,8 +13,6 @@ resource "argocd_cluster" "dev_cluster" {
   name   = local.talos.cluster_name
 
   config {
-    bearer_token = data.utils_kubeconfig.dev.token
-
     tls_client_config {
       ca_data   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate
       cert_data = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate
