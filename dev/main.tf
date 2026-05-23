@@ -17,7 +17,8 @@ terraform {
 }
 
 provider "gitlab" {
-  token = var.gitlab_token
+  token    = var.gitlab_token
+  base_url = "https://gitlab.durp.info/api/v4/"
 }
 
 provider "proxmox" {
