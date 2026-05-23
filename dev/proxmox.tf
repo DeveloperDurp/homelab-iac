@@ -15,11 +15,11 @@ resource "proxmox_vm_qemu" "control" {
     cores = local.control.cores
     type  = "x86-64-v2-AES"
   }
-  memory  = local.control.memory
-  scsihw  = "virtio-scsi-pci"
-  boot    = "order=scsi0"
+  memory             = local.control.memory
+  scsihw             = "virtio-scsi-pci"
+  boot               = "order=scsi0"
   start_at_node_boot = true
-  sshkeys = local.sshkeys
+  sshkeys            = local.sshkeys
   vga {
     type = "serial0"
   }
@@ -75,11 +75,11 @@ resource "proxmox_vm_qemu" "worker" {
     cores = local.worker.cores
     type  = "x86-64-v2-AES"
   }
-  memory  = local.worker.memory
-  scsihw  = "virtio-scsi-pci"
-  boot    = "order=scsi0"
+  memory             = local.worker.memory
+  scsihw             = "virtio-scsi-pci"
+  boot               = "order=scsi0"
   start_at_node_boot = true
-  sshkeys = local.sshkeys
+  sshkeys            = local.sshkeys
   vga {
     type = "serial0"
   }
