@@ -50,7 +50,13 @@ data "talos_cluster_health" "health" {
   endpoints            = data.talos_client_configuration.talosconfig.endpoints
 }
 
-data "talos_cluster_kubeconfig" "kubeconfig" {
+#data "talos_cluster_kubeconfig" "kubeconfig" {
+#  depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
+#  client_configuration = talos_machine_secrets.machine_secrets.client_configuration
+#  node                 = local.control.ip[0]
+#}
+
+resource "talos_cluster_kubeconfig" "kubeconfig" {
   depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.control.ip[0]
@@ -62,6 +68,6 @@ output "talosconfig" {
 }
 
 output "kubeconfig" {
-  value     = data.talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
+  value     = resource.talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
   sensitive = true
 }

@@ -18,7 +18,7 @@ resource "proxmox_vm_qemu" "control" {
   memory  = local.control.memory
   scsihw  = "virtio-scsi-pci"
   boot    = "order=scsi0"
-  onboot  = true
+  start_at_node_boot = true
   sshkeys = local.sshkeys
   vga {
     type = "serial0"
@@ -78,7 +78,7 @@ resource "proxmox_vm_qemu" "worker" {
   memory  = local.worker.memory
   scsihw  = "virtio-scsi-pci"
   boot    = "order=scsi0"
-  onboot  = true
+  start_at_node_boot = true
   sshkeys = local.sshkeys
   vga {
     type = "serial0"
