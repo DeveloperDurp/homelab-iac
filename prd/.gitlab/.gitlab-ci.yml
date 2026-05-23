@@ -6,6 +6,9 @@ stages:
 variables:
   WORKDIR: $CI_PROJECT_DIR/prd
   GITLAB_TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/prd
+  PLAN: plan.tfplan
+  JSON_PLAN_FILE: tfplan.json
+  ENVIRONMENT_NAME: prd
 
 image:
   name: registry.durp.info/opentofu/opentofu:latest
@@ -47,10 +50,9 @@ validate:
 
 plan-prd-infrastructure:
   stage: plan
-  variables:
-    PLAN: plan.tfplan
-    JSON_PLAN_FILE: tfplan.json
-    ENVIRONMENT_NAME: prd
+  environment:
+    name: $ENVIRONMENT_NAME
+    action: prepare
   allow_failure: false
   extends: .tf-init
   script:
@@ -59,6 +61,8 @@ plan-prd-infrastructure:
     - tofu plan -out=$PLAN $ARGUMENTS
     - tofu show --json $PLAN | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}' > $JSON_PLAN_FILE
   artifacts:
+    paths:
+      - $WORKDIR/$PLAN
     reports:
       terraform: $WORKDIR/$JSON_PLAN_FILE
   needs: ["validate","format"]
@@ -68,12 +72,13 @@ plan-prd-infrastructure:
 
 apply-prd-infrastructure:
   stage: apply
-  variables:
-    ENVIRONMENT_NAME: prd
+  environment:
+    name: $ENVIRONMENT_NAME
+    on_stop: destroy-prd-infrastructure
   allow_failure: false
   extends: .tf-init
   script:
-    - tofu apply -auto-approve $ARGUMENTS
+    - tofu apply -auto-approve $PLAN
   rules:
     - changes:
         - "prd/*.tf"
@@ -82,8 +87,9 @@ apply-prd-infrastructure:
 
 destroy-prd-infrastructure:
   stage: destroy
-  variables:
-    ENVIRONMENT_NAME: prd
+  environment:
+    name: $ENVIRONMENT_NAME
+    action: stop
   allow_failure: false
   extends: .tf-init
   script:
