@@ -14,8 +14,11 @@ resource "argocd_cluster" "dev_cluster" {
 
   config {
     bearer_token = data.utils_kubeconfig.dev.token
+
     tls_client_config {
-      ca_data = data.utils_kubeconfig.dev.ca_data
+      ca_data   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate
+      cert_data = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate
+      key_data  = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key
     }
   }
 
@@ -26,9 +29,4 @@ resource "argocd_cluster" "dev_cluster" {
       managed-by  = "terraform"
     }
   }
-}
-
-# Using the kubeconfig generated in talos.tf
-data "utils_kubeconfig" "dev" {
-  kubeconfig = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
 }
