@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "control" {
   count       = local.control.count
   ciuser      = "administrator"
   description = "Managed by OpenTofu"
-  vmid        = "${local.vlan}${local.control.ip[count.index]}"
+  vmid        = local.control.vmid[count.index]
   name        = local.control.name[count.index]
   target_node = local.control.node[count.index]
   clone       = local.template
@@ -62,7 +62,7 @@ resource "proxmox_vm_qemu" "worker" {
   count       = local.worker.count
   ciuser      = "administrator"
   description = "Managed by OpenTofu"
-  vmid        = "${local.vlan}${local.worker.ip[count.index]}"
+  vmid        = local.worker.vmid[count.index]
   name        = local.worker.name[count.index]
   target_node = local.worker.node[count.index]
   clone       = local.template

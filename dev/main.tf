@@ -46,6 +46,11 @@ locals {
       "overlord",
       "vanguard"
     ]
+    vmid = [
+      "${local.vlan}11",
+      "${local.vlan}12",
+      "${local.vlan}13"
+    ]
     ip = [
       "192.168.${local.vlan}.11",
       "192.168.${local.vlan}.12",
@@ -68,6 +73,11 @@ locals {
       "mothership",
       "overlord",
       "vanguard"
+    ]
+    vmid = [
+      "${local.vlan}21",
+      "${local.vlan}22",
+      "${local.vlan}23"
     ]
     ip = [
       "192.168.${local.vlan}.21",
