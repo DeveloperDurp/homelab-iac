@@ -4,7 +4,7 @@ variable "argocd_token" {
 }
 
 provider "argocd" {
-  server_addr = "https://argocd.infra.durp.info"
+  server_addr = "argocd.infra.durp.info:443"
   auth_token  = var.argocd_token
 }
 
