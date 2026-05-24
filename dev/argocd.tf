@@ -5,7 +5,8 @@ variable "argocd_token" {
 
 provider "argocd" {
   server_addr = "argocd.infra.durp.info:443"
-  auth_token  = var.argocd_token
+  username    = "admin"
+  password    = var.argocd_token
   insecure    = true
 }
 
