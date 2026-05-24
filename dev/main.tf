@@ -17,6 +17,10 @@ terraform {
       source  = "argoproj-labs/argocd"
       version = "7.15.3"
     }
+    pihole = {
+      source  = "ryanwholey/pihole"
+      version = "2.0.0"
+    }
   }
 }
 
