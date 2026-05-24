@@ -1,5 +1,5 @@
 provider "pihole" {
-  url      = "http://192.168.12.41"
+  url      = "http://192.168.12.41/admin"
   password = var.pihole_password
 }
 
