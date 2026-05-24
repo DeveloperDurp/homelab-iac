@@ -21,6 +21,7 @@ resource "pihole_dns_record" "worker_records" {
 }
 
 resource "pihole_dns_record" "cluster_endpoint" {
+  count  = local.control.count
   domain = local.talos.cluster_dns
-  ip     = local.control.ip[0]
+  ip     = local.control.ip[count.index]
 }
