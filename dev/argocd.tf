@@ -16,9 +16,10 @@ resource "argocd_cluster" "dev_cluster" {
 
   config {
     tls_client_config {
-      ca_data   = base64encode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate)
-      cert_data = base64encode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate)
-      key_data  = base64encode(talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key)
+      insecure  = true
+      ca_data   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate
+      cert_data = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate
+      key_data  = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key
     }
   }
 
