@@ -10,20 +10,22 @@ provider "argocd" {
   insecure    = true
 }
 
+locals {
+  kubeconfig = yamldecode(talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw)
+}
+
 resource "argocd_cluster" "dev_cluster" {
   server = "https://${local.talos.cluster_dns}:6443"
   name   = local.talos.cluster_name
 
   config {
     tls_client_config {
-      insecure  = true
-      ca_data   = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.ca_certificate
-      cert_data = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_certificate
-      key_data  = talos_cluster_kubeconfig.kubeconfig.kubernetes_client_configuration.client_key
+      ca_data   = base64decode(local.kubeconfig.clusters[0].cluster["certificate-authority-data"])
+      cert_data = base64decode(local.kubeconfig.users[0].user["client-certificate-data"])
+      key_data  = base64decode(local.kubeconfig.users[0].user["client-key-data"])
     }
   }
 
-  # Optional: Add labels or annotations
   metadata {
     labels = {
       environment = "development"
