@@ -1,6 +1,11 @@
 provider "gitlab" {
   token    = var.gitlab_token
-  base_url = "https://gitlab.durp.info/api/v4/"
+  base_url = var.gitlab_api_url
+}
+
+variable "gitlab_api_url" {
+  description = "Gitlab API Url"
+  type        = string
 }
 
 variable "gitlab_token" {

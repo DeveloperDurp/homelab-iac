@@ -11,6 +11,14 @@ data "talos_machine_configuration" "machineconfig_cp" {
   cluster_endpoint = "https://${local.talos.cluster_dns}:6443"
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
+
+  config_patches = [
+    yamlencode({
+      cluster = {
+        allowSchedulingOnControlPlanes = false
+      }
+    })
+  ]
 }
 
 resource "talos_machine_configuration_apply" "cp_config_apply" {
