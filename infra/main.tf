@@ -56,17 +56,17 @@ locals {
   #  node    = ["mothership", "overlord", "vanguard"]
   #  ip      = ["31", "32", "33"]
   #}
-  postgres = {
-    tags    = "postgres"
-    count   = 3
-    name    = ["postgres-01", "postgres-02", "postgres-03"]
-    cores   = 4
-    memory  = "4096"
-    drive   = 40
-    storage = "cache-domains"
-    node    = ["mothership", "overlord", "vanguard"]
-    ip      = ["34", "35", "36"]
-  }
+  #postgres = {
+  #  tags    = "postgres"
+  #  count   = 3
+  #  name    = ["postgres-01", "postgres-02", "postgres-03"]
+  #  cores   = 4
+  #  memory  = "4096"
+  #  drive   = 40
+  #  storage = "cache-domains"
+  #  node    = ["mothership", "overlord", "vanguard"]
+  #  ip      = ["34", "35", "36"]
+  #}
   pihole = {
     tags    = "pihole"
     count   = 3
