@@ -13,7 +13,7 @@ resource "proxmox_vm_qemu" "k3smaster" {
   agent       = 1
   cpu {
     cores = local.k3smaster.cores
-    type  = "x86-64-v2-AES"
+    type  = "host"
   }
   memory             = local.k3smaster.memory
   scsihw             = "virtio-scsi-pci"
@@ -77,7 +77,7 @@ resource "proxmox_vm_qemu" "k3sserver" {
   agent       = 1
   cpu {
     cores = local.k3sserver.cores
-    type  = "x86-64-v2-AES"
+    type  = "host"
   }
   memory = local.k3sserver.memory
   scsihw = "virtio-scsi-pci"
