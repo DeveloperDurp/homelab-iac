@@ -11,14 +11,20 @@ resource "proxmox_vm_qemu" "k3smaster" {
   qemu_os     = "l26"
   os_type     = "cloud-init"
   agent       = 1
-  cores       = local.k3smaster.cores
-  sockets     = 1
-  cpu_type    = "host"
+  cpu {
+    cores = local.k3smaster.cores
+    type  = "x86-64-v2-AES"
+  }
   memory      = local.k3smaster.memory
   scsihw      = "virtio-scsi-pci"
   boot        = "order=virtio0"
-  onboot      = true
+  start_at_node_boot = true
   sshkeys     = local.sshkeys
+  startup_shutdown {
+    order            = -1
+    shutdown_timeout = -1
+    startup_delay    = -1
+  }
   vga {
     type = "serial0"
   }
@@ -69,15 +75,21 @@ resource "proxmox_vm_qemu" "k3sserver" {
   full_clone  = false
   os_type     = "cloud-init"
   agent       = 1
-  cores       = local.k3sserver.cores
-  sockets     = 1
-  cpu_type    = "host"
+  cpu {
+    cores = local.k3sserver.cores
+    type  = "x86-64-v2-AES"
+  }
   memory      = local.k3sserver.memory
   scsihw      = "virtio-scsi-pci"
   #bootdisk    = "scsi0"
   boot    = "order=virtio0"
-  onboot  = true
+  start_at_node_boot = true
   sshkeys = local.sshkeys
+  startup_shutdown {
+    order            = -1
+    shutdown_timeout = -1
+    startup_delay    = -1
+  }
   vga {
     type = "serial0"
   }
