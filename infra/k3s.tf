@@ -15,11 +15,11 @@ resource "proxmox_vm_qemu" "k3smaster" {
     cores = local.k3smaster.cores
     type  = "x86-64-v2-AES"
   }
-  memory      = local.k3smaster.memory
-  scsihw      = "virtio-scsi-pci"
-  boot        = "order=virtio0"
+  memory             = local.k3smaster.memory
+  scsihw             = "virtio-scsi-pci"
+  boot               = "order=virtio0"
   start_at_node_boot = true
-  sshkeys     = local.sshkeys
+  sshkeys            = local.sshkeys
   startup_shutdown {
     order            = -1
     shutdown_timeout = -1
@@ -79,12 +79,12 @@ resource "proxmox_vm_qemu" "k3sserver" {
     cores = local.k3sserver.cores
     type  = "x86-64-v2-AES"
   }
-  memory      = local.k3sserver.memory
-  scsihw      = "virtio-scsi-pci"
+  memory = local.k3sserver.memory
+  scsihw = "virtio-scsi-pci"
   #bootdisk    = "scsi0"
-  boot    = "order=virtio0"
+  boot               = "order=virtio0"
   start_at_node_boot = true
-  sshkeys = local.sshkeys
+  sshkeys            = local.sshkeys
   startup_shutdown {
     order            = -1
     shutdown_timeout = -1

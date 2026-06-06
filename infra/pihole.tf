@@ -14,12 +14,12 @@ resource "proxmox_vm_qemu" "pihole" {
     cores = local.pihole.cores
     type  = "x86-64-v2-AES"
   }
-  memory      = local.pihole.memory
-  scsihw      = "virtio-scsi-pci"
+  memory = local.pihole.memory
+  scsihw = "virtio-scsi-pci"
   #bootdisk    = "scsi0"
-  boot    = "order=virtio0"
+  boot               = "order=virtio0"
   start_at_node_boot = true
-  sshkeys = local.sshkeys
+  sshkeys            = local.sshkeys
   startup_shutdown {
     order            = -1
     shutdown_timeout = -1
