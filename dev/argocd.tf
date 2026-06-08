@@ -11,7 +11,7 @@ provider "argocd" {
 }
 
 locals {
-  kubeconfig = yamldecode(talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw)
+  kubeconfig = yamldecode(module.talos_dev_cluster.kubeconfig)
 }
 
 resource "argocd_cluster" "dev_cluster" {

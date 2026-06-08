@@ -21,13 +21,15 @@ terraform {
       source  = "ubiquiti-community/unifi"
       version = "0.41.25"
     }
+    vault = {
+      source  = "hashicorp/vault"
+      version = "5.9.0"
+    }
   }
 }
 
 locals {
-  gitlab = {
-    iacRepoId = "7"
-  }
+  gitlab_repo_id = "7"
   template  = "tails-Template"
   format    = "raw"
   dnsserver = "192.168.${local.vlan}.1"
