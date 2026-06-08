@@ -30,11 +30,11 @@ terraform {
 
 locals {
   gitlab_repo_id = "7"
-  template  = "tails-Template"
-  format    = "raw"
-  dnsserver = "192.168.${local.vlan}.1"
-  gateway   = "192.168.${local.vlan}.1"
-  vlan      = 10
+  template       = "tails-Template"
+  format         = "raw"
+  dnsserver      = "192.168.${local.vlan}.1"
+  gateway        = "192.168.${local.vlan}.1"
+  vlan           = 10
   control = {
     tags  = "control_dev"
     count = 3
