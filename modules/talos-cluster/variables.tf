@@ -27,3 +27,8 @@ variable "gitlab_repo_id" {
   type        = string
   description = "Repo ID of the gitlab project to upload variables"
 }
+
+variable "cluster_vip" {
+  type        = string
+  description = "Virtual IP for the Talos cluster control plane"
+}

@@ -94,5 +94,6 @@ locals {
   talos = {
     cluster_name = "dev"
     cluster_dns  = "kube.dev.durp.loc"
+    cluster_vip  = "192.168.10.10"
   }
 }
