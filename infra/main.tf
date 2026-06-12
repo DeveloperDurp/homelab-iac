@@ -5,6 +5,10 @@ terraform {
       source  = "telmate/proxmox"
       version = "3.0.2-rc07"
     }
+    unifi = {
+      source  = "ubiquiti-community/unifi"
+      version = "0.41.25"
+    }
   }
 }
 
@@ -15,6 +19,10 @@ provider "proxmox" {
   pm_user         = var.pm_user
   pm_password     = var.pm_password
   pm_debug        = false
+}
+
+provider "unifi" {
+  allow_insecure = true
 }
 
 locals {
@@ -78,4 +86,13 @@ locals {
     node    = ["mothership", "overlord", "vanguard"]
     ip      = ["41", "42", "43"]
   }
+  unraid_ip = "192.168.21.200"
+}
+
+resource "unifi_dns_record" "unraid" {
+  name        = "unraid.durp.loc"
+  record_type = "A"
+  value       = local.unraid_ip
+  enabled     = true
+  ttl         = 300
 }
