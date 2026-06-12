@@ -59,7 +59,7 @@ plan-dev-infrastructure:
     - apk add --update curl jq
     - alias convert_report="jq -r '([.resource_changes[].change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
     - tofu plan -out=$PLAN $ARGUMENTS
-    - tofu show --json $PLAN | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}' > $JSON_PLAN_FILE
+    - tofu show --json $PLAN | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete")))}' > $JSON_PLAN_FILE
   artifacts:
     paths:
       - $WORKDIR/$PLAN
@@ -67,6 +67,8 @@ plan-dev-infrastructure:
       terraform: $WORKDIR/$JSON_PLAN_FILE
   needs: ["validate","format"]
   rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
     - changes:
         - "dev/*.tf"
 
@@ -80,6 +82,8 @@ apply-dev-infrastructure:
   script:
     - tofu apply -auto-approve $PLAN
   rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
     - changes:
         - "dev/*.tf"
       when: manual
@@ -95,6 +99,8 @@ destroy-dev-infrastructure:
   script:
     - tofu destroy -auto-approve $ARGUMENTS
   rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
     - changes:
         - "dev/*.tf"
       when: manual
