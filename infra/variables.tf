@@ -12,3 +12,13 @@ variable "pm_user" {
   description = "UIsername to Proxmox provider"
   type        = string
 }
+
+variable "unifi_api_url" {
+  description = "api key for unifi"
+  type        = string
+}
+
+variable "unifi_api_key" {
+  description = "api key for unifi"
+  type        = string
+}
