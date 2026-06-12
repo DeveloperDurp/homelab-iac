@@ -16,10 +16,9 @@ terraform {
 }
 
 resource "unifi_dns_record" "cluster_endpoint" {
-  count       = length(var.control_plane_ips)
   name        = replace(replace(var.cluster_endpoint, "https://", ""), "/:[0-9]+$/", "")
   record_type = "A"
-  value       = var.control_plane_ips[count.index]
+  value       = var.cluster_vip
   enabled     = true
   ttl         = 300
 }
@@ -56,6 +55,18 @@ data "talos_machine_configuration" "machineconfig_cp" {
     yamlencode({
       cluster = {
         allowSchedulingOnControlPlanes = var.allow_scheduling_on_control_planes
+      }
+      machine = {
+        network = {
+          interfaces = [
+            {
+              interface = "eth0"
+              vip = {
+                ip = var.cluster_vip
+              }
+            }
+          ]
+        }
       }
     })
   ]
