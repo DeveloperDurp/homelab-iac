@@ -8,6 +8,7 @@ module "talos_dev_cluster" {
 
   control_plane_ips = local.control.ip
   worker_ips        = local.worker.ip
+  cluster_vip       = local.talos.cluster_vip
 
   # Dev specific tweaks
   allow_scheduling_on_control_planes = false
