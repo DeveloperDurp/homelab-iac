@@ -13,3 +13,10 @@ variable "unifi_api_key" {
   description = "api key for unifi"
   type        = string
 }
+resource "unifi_dns_record" "unraid_dev" {
+  name        = "unraid.dev.durp.loc"
+  record_type = "A"
+  value       = "192.168.10.200"
+  enabled     = true
+  ttl         = 300
+}
