@@ -14,7 +14,7 @@ provider "kubernetes" {
   client_certificate     = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-certificate-data"])
   client_key             = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-key-data"])
   insecure               = true
-  ignore_annotations     = true
+  ignore_annotations     = []
 }
 
 resource "helm_release" "argocd" {
