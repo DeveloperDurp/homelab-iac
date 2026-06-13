@@ -19,8 +19,8 @@ variable "worker_ips" {
 }
 
 variable "allow_scheduling_on_control_planes" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "gitlab_repo_id" {
