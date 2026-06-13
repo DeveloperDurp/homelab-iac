@@ -1,7 +1,6 @@
 provider "helm" {
   kubernetes {
     host                   = "https://${local.talos.cluster_dns}:6443"
-    cluster_ca_certificate = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).clusters[0].cluster["certificate-authority-data"])
     client_certificate     = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-certificate-data"])
     client_key             = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-key-data"])
     insecure               = true
