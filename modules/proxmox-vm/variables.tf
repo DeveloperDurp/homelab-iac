@@ -59,7 +59,7 @@ variable "gateway" {
 }
 
 variable "sshkeys" {
-  type = string
+  type    = string
   default = null
 }
 

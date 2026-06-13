@@ -22,6 +22,10 @@ resource "helm_release" "argocd" {
   create_namespace = true
   version          = "6.7.11"
 
+  lifecycle {
+    ignore_changes = [version]
+  }
+
   values = [
     yamlencode({
       server = {
@@ -34,28 +38,8 @@ resource "helm_release" "argocd" {
   ]
 }
 
-resource "kubernetes_secret" "gitlab_creds" {
-  depends_on = [helm_release.argocd]
-  metadata {
-    name      = "gitlab-creds"
-    namespace = "argocd"
-    labels = {
-      "argocd.argoproj.io/secret-type" = "repository"
-    }
-  }
-
-  type = "Opaque"
-
-  data = {
-    url      = "https://gitlab.durp.info/durfy/homelab/gitops.git"
-    username = "oauth2"
-    password = var.gitlab_token
-    type     = "git"
-  }
-}
-
 resource "kubernetes_manifest" "argocd_root" {
-  depends_on = [helm_release.argocd, kubernetes_secret.gitlab_creds]
+  depends_on = [helm_release.argocd]
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
