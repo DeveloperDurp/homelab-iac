@@ -25,8 +25,13 @@ resource "helm_release" "argocd" {
   ]
 }
 
+resource "time_sleep" "wait_for_crd" {
+  depends_on      = [helm_release.argocd]
+  create_duration = "60s"
+}
+
 resource "kubernetes_manifest" "argocd_root" {
-  depends_on = [helm_release.argocd]
+  depends_on = [time_sleep.wait_for_crd]
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
