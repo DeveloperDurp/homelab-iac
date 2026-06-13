@@ -1,0 +1,41 @@
+stages:
+  - plan
+  - apply
+
+variables:
+  WORKDIR: $CI_PROJECT_DIR/infra-apps/argocd
+  PLAN: plan.tfplan
+
+image:
+  name: registry.durp.info/opentofu/opentofu:latest
+  entrypoint: [""]
+
+.tf-init:
+  variables:
+    TF_HTTP_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps
+    TF_HTTP_LOCK_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps/lock
+    TF_HTTP_UNLOCK_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps/lock
+    TF_HTTP_USERNAME: gitlab-ci-token
+    TF_HTTP_PASSWORD: ${CI_JOB_TOKEN}
+    TF_HTTP_LOCK_METHOD: POST
+    TF_HTTP_UNLOCK_METHOD: DELETE
+  before_script:
+    - cd $WORKDIR
+    - tofu init -reconfigure
+
+plan-apps:
+  stage: plan
+  extends: .tf-init
+  script:
+    - tofu plan -lock=false -out=$PLAN
+  artifacts:
+    paths:
+      - $WORKDIR/$PLAN
+
+apply-apps:
+  stage: apply
+  extends: .tf-init
+  script:
+    - tofu apply -auto-approve $PLAN
+  when: manual
+  needs: ["plan-apps"]

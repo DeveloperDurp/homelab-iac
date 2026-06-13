@@ -32,3 +32,11 @@ build_prd:
   rules:
     - changes:
         - "prd/*.tf"
+
+build_apps:
+  stage: triggers
+  trigger:
+    include: infra-apps/.gitlab/.gitlab-ci.yml
+  rules:
+    - changes:
+        - "infra-apps/*.tf"
