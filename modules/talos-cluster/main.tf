@@ -16,7 +16,6 @@ terraform {
 }
 
 resource "unifi_dns_record" "cluster_endpoint" {
-  count       = length(var.control_plane_ips)
   name        = split(":", replace(var.cluster_endpoint, "https://", ""))[0]
   record_type = "A"
   value       = var.cluster_vip
