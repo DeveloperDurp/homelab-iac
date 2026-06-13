@@ -1,10 +1,14 @@
 stages:
   - plan
   - apply
+  - destroy
 
 variables:
-  WORKDIR: $CI_PROJECT_DIR/infra-apps/argocd
+  WORKDIR: $CI_PROJECT_DIR/infra-apps
+  GITLAB_TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps
   PLAN: plan.tfplan
+  JSON_PLAN_FILE: tfplan.json
+  ENVIRONMENT_NAME: infra-apps
 
 image:
   name: registry.durp.info/opentofu/opentofu:latest
@@ -12,30 +16,84 @@ image:
 
 .tf-init:
   variables:
-    TF_HTTP_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps
-    TF_HTTP_LOCK_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps/lock
-    TF_HTTP_UNLOCK_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/infra-apps/lock
+    TF_HTTP_ADDRESS: ${GITLAB_TF_ADDRESS}
+    TF_HTTP_LOCK_ADDRESS: ${GITLAB_TF_ADDRESS}/lock
+    TF_HTTP_UNLOCK_ADDRESS: ${GITLAB_TF_ADDRESS}/lock
     TF_HTTP_USERNAME: gitlab-ci-token
     TF_HTTP_PASSWORD: ${CI_JOB_TOKEN}
     TF_HTTP_LOCK_METHOD: POST
     TF_HTTP_UNLOCK_METHOD: DELETE
+    TF_HTTP_RETRY_WAIT_MIN: "5"
   before_script:
     - cd $WORKDIR
     - tofu init -reconfigure
 
-plan-apps:
-  stage: plan
+format:
+  stage: .pre
+  allow_failure: false
+  script:
+    - cd $WORKDIR
+    - tofu fmt -diff -check -write=false
+  rules:
+    - changes:
+        - "infra-apps/*.tf"
+
+validate:
+  stage: .pre
+  allow_failure: false
   extends: .tf-init
   script:
-    - tofu plan -lock=false -out=$PLAN
+    - tofu validate
+  rules:
+    - changes:
+        - "infra-apps/*.tf"
+
+plan-infrastructure:
+  stage: plan
+  environment:
+    name: $ENVIRONMENT_NAME
+    action: prepare
+  allow_failure: false
+  extends: .tf-init
+  script:
+    - apk add --update curl jq
+    - alias convert_report="jq -r
+      '([.resource_changes[].change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+    - tofu plan -lock=false -out=$PLAN $ARGUMENTS
+    - tofu show --json $PLAN | jq -r
+      '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}'
+      > $JSON_PLAN_FILE
   artifacts:
     paths:
       - $WORKDIR/$PLAN
+    reports:
+      terraform: $WORKDIR/$JSON_PLAN_FILE
+  needs: ["validate", "format"]
+  rules:
+    - changes:
+        - "infra-apps/*.tf"
 
-apply-apps:
+apply-infrastructure:
   stage: apply
+  environment:
+    name: $ENVIRONMENT_NAME
+    on_stop: destroy-infrastructure
+  allow_failure: false
   extends: .tf-init
   script:
     - tofu apply -auto-approve $PLAN
-  when: manual
-  needs: ["plan-apps"]
+  rules:
+    - changes:
+        - "infra-apps/*.tf"
+      when: manual
+  needs: ["plan-infrastructure"]
+
+destroy-infrastructure:
+  stage: destroy
+  environment:
+    name: $ENVIRONMENT_NAME
+    action: stop
+  allow_failure: false
+  extends: .tf-init
+  script:
+    - tofu destroy -auto-approve $ARGUMENTS
