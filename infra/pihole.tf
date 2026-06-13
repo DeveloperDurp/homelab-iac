@@ -4,7 +4,7 @@ resource "proxmox_vm_qemu" "pihole" {
   vmid        = "${local.vlan}${local.pihole.ip[count.index]}"
   name        = local.pihole.name[count.index]
   target_node = local.pihole.node[count.index]
-  clone       = local.template
+  clone       = local.templateOld
   tags        = local.pihole.tags
   qemu_os     = "l26"
   full_clone  = true

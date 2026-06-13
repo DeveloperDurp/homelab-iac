@@ -16,11 +16,17 @@ terraform {
 }
 
 resource "unifi_dns_record" "cluster_endpoint" {
-  name        = replace(replace(var.cluster_endpoint, "https://", ""), "/:[0-9]+$/", "")
+  count       = length(var.control_plane_ips)
+  name        = split(":", replace(var.cluster_endpoint, "https://", ""))[0]
   record_type = "A"
   value       = var.cluster_vip
   enabled     = true
   ttl         = 300
+}
+
+resource "time_sleep" "wait_for_dns" {
+  depends_on      = [unifi_dns_record.cluster_endpoint]
+  create_duration = "90s"
 }
 
 resource "gitlab_project_variable" "talosconfig" {
@@ -37,7 +43,10 @@ resource "gitlab_project_variable" "kubeconfig" {
   variable_type = "file"
 }
 
-resource "talos_machine_secrets" "machine_secrets" {}
+resource "talos_machine_secrets" "machine_secrets" {
+  # This blocks the generation of secrets until DNS is ready
+  depends_on = [time_sleep.wait_for_dns]
+}
 
 data "talos_client_configuration" "talosconfig" {
   cluster_name         = var.cluster_name
