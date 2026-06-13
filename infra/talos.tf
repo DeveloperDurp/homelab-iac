@@ -52,6 +52,7 @@ module "talos_infra_cluster" {
 
   control_plane_ips = local.control.ip
   worker_ips        = local.worker.ip
+  cluster_vip       = local.talos.cluster_vip
 
   # infra specific tweaks
   allow_scheduling_on_control_planes = false
