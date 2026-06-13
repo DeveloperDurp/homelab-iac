@@ -107,9 +107,9 @@ locals {
     name = [
       "hermes-agent",
     ]
-    cores   = 2
-    memory  = "4096"
-    drive   = 60
+    cores   = 8
+    memory  = "16384"
+    drive   = 200
     storage = "cache-domains"
     node = [
       "mothership",
