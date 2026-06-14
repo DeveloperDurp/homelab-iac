@@ -66,10 +66,12 @@ data "talos_machine_configuration" "machineconfig_cp" {
       }
       machine = {
         install = {
-          extensions = [
-            "siderolabs/iscsi-tools",
-            "siderolabs/util-linux-tools"
-          ]
+          extensions = {
+            officialExtensions = [
+              "iscsi-tools",
+              "util-linux-tools"
+            ]
+          }
         }
         network = {
           interfaces = [
