@@ -65,6 +65,14 @@ data "talos_machine_configuration" "machineconfig_cp" {
         allowSchedulingOnControlPlanes = var.allow_scheduling_on_control_planes
       }
       machine = {
+        install = {
+          extensions = {
+            officialExtensions = [
+              "siderolabs/iscsi-tools",
+              "siderolabs/util-linux-tools"
+            ]
+          }
+        }
         network = {
           interfaces = [
             {
