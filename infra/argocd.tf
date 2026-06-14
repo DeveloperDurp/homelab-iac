@@ -71,7 +71,7 @@ resource "kubernetes_manifest" "root_app" {
         targetRevision = "HEAD"
       }
       destination = {
-        server    = "https://kubernetes.default.svc"
+        name      = "in-cluster"
         namespace = "argocd"
       }
       syncPolicy = {
