@@ -19,7 +19,7 @@ terraform {
     }
     unifi = {
       source  = "ubiquiti-community/unifi"
-      version = "0.41.25"
+      version = "0.49.0"
     }
     vault = {
       source  = "hashicorp/vault"
