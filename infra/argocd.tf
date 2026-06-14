@@ -60,14 +60,14 @@ resource "kubernetes_manifest" "root_app" {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
     metadata = {
-      name      = "root-app"
+      name      = "argocd"
       namespace = "argocd"
     }
     spec = {
       project = "default"
       source = {
         repoURL        = "https://gitlab.durp.info/durfy/homelab/gitops.git"
-        path           = "infra/apps"
+        path           = "infra-talos/argocd"
         targetRevision = "HEAD"
       }
       destination = {
