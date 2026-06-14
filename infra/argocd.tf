@@ -68,7 +68,7 @@ resource "kubernetes_manifest" "root_app" {
       source = {
         repoURL        = "https://gitlab.durp.info/durfy/homelab/gitops.git"
         path           = "infra-talos/argocd"
-        targetRevision = "HEAD"
+        targetRevision = "main"
       }
       destination = {
         name      = "in-cluster"

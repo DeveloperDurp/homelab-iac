@@ -1,8 +1,3 @@
-provider "unifi" {
-  api_url        = var.unifi_api_url
-  api_key        = var.unifi_api_key
-  allow_insecure = true
-}
 
 module "talos_control" {
   source = "../modules/proxmox-vm"
