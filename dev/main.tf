@@ -11,7 +11,7 @@ terraform {
     }
     gitlab = {
       source  = "gitlabhq/gitlab"
-      version = "19.0"
+      version = "19.1"
     }
     argocd = {
       source  = "argoproj-labs/argocd"
