@@ -7,7 +7,7 @@ resource "helm_release" "argocd" {
   chart            = "argo-cd"
   namespace        = "argocd"
   create_namespace = true
-  version          = "6.7.11"
+  version          = "10.1.3"
 
   lifecycle {
     ignore_changes = [version]
