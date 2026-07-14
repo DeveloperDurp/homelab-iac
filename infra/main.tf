@@ -89,7 +89,7 @@ locals {
       "worker03-infra"
     ]
     cores   = 4
-    memory  = "8192"
+    memory  = "16384"
     drive   = 120
     storage = "cache-domains"
     node = [

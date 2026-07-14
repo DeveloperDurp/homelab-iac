@@ -109,11 +109,18 @@ path "kv/*" {
 EOT
 }
 
-# 5. Create a ServiceAccount for the Certificate Issuer (e.g., cert-manager)
+# 5. Ensure the cert-manager namespace exists
+resource "kubernetes_namespace_v1" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
+
+# 6. Create a ServiceAccount for the Certificate Issuer (e.g., cert-manager)
 resource "kubernetes_service_account_v1" "pki_issuer" {
   metadata {
     name      = "vault-issuer"
-    namespace = "cert-manager" # Adjust namespace as needed
+    namespace = kubernetes_namespace_v1.cert_manager.metadata[0].name
   }
 
   lifecycle {
@@ -123,7 +130,7 @@ resource "kubernetes_service_account_v1" "pki_issuer" {
   }
 }
 
-# 6. Create a Vault Policy to allow issuing certificates
+# 7. Create a Vault Policy to allow issuing certificates
 resource "vault_policy" "pki_policy" {
   name   = "${local.talos.cluster_name}-pki-issuer-policy"
   policy = <<EOT
@@ -139,7 +146,7 @@ path "pki/issue/*" {
 EOT
 }
 
-# 7. Bind the Kubernetes ServiceAccount to the Vault Policy
+# 8. Bind the Kubernetes ServiceAccount to the Vault Policy
 resource "vault_kubernetes_auth_backend_role" "pki_issuer" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "pki-issuer-role"
@@ -153,7 +160,7 @@ resource "vault_kubernetes_auth_backend_role" "pki_issuer" {
 resource "kubernetes_secret_v1" "pki_issuer_token" {
   metadata {
     name      = "vault-issuer-token"
-    namespace = "cert-manager"
+    namespace = kubernetes_namespace_v1.cert_manager.metadata[0].name
     annotations = {
       "kubernetes.io/service-account.name" = kubernetes_service_account_v1.pki_issuer.metadata[0].name
     }

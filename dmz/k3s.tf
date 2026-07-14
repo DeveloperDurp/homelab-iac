@@ -1,13 +1,16 @@
 resource "proxmox_vm_qemu" "k3smaster" {
+  lifecycle {
+    prevent_destroy = true
+  }
   count       = local.k3smaster.count
   ciuser      = "administrator"
   vmid        = "${local.vlan}${local.k3smaster.ip[count.index]}"
   name        = local.k3smaster.name[count.index]
   target_node = local.k3smaster.node[count.index]
-  clone       = local.template
+  clone       = local.templateOld
   tags        = local.k3smaster.tags
-  qemu_os     = "l26"
   full_clone  = true
+  qemu_os     = "l26"
   os_type     = "cloud-init"
   agent       = 1
   cores       = local.k3smaster.cores
@@ -15,10 +18,9 @@ resource "proxmox_vm_qemu" "k3smaster" {
   cpu_type    = "host"
   memory      = local.k3smaster.memory
   scsihw      = "virtio-scsi-pci"
-  #bootdisk    = "scsi0"
-  boot    = "order=virtio0"
-  onboot  = true
-  sshkeys = local.sshkeys
+  boot        = "order=virtio0"
+  onboot      = true
+  sshkeys     = local.sshkeys
   vga {
     type = "serial0"
   }
@@ -30,7 +32,7 @@ resource "proxmox_vm_qemu" "k3smaster" {
     ide {
       ide2 {
         cloudinit {
-          storage = local.storage
+          storage = local.k3smaster.storage
         }
       }
     }
@@ -39,7 +41,7 @@ resource "proxmox_vm_qemu" "k3smaster" {
         disk {
           size    = local.k3smaster.drive
           format  = local.format
-          storage = local.storage
+          storage = local.k3smaster.storage
         }
       }
     }
@@ -57,12 +59,15 @@ resource "proxmox_vm_qemu" "k3smaster" {
 }
 
 resource "proxmox_vm_qemu" "k3sserver" {
+  lifecycle {
+    prevent_destroy = true
+  }
   count       = local.k3sserver.count
   ciuser      = "administrator"
   vmid        = "${local.vlan}${local.k3sserver.ip[count.index]}"
   name        = local.k3sserver.name[count.index]
   target_node = local.k3sserver.node[count.index]
-  clone       = local.template
+  clone       = local.templateOld
   tags        = local.k3sserver.tags
   qemu_os     = "l26"
   full_clone  = true
@@ -74,8 +79,8 @@ resource "proxmox_vm_qemu" "k3sserver" {
   memory      = local.k3sserver.memory
   scsihw      = "virtio-scsi-pci"
   #bootdisk    = "scsi0"
-  boot    = "order=virtio0"
-  onboot  = true
+  boot   = "order=virtio0"
+  onboot = true
   sshkeys = local.sshkeys
   vga {
     type = "serial0"
@@ -88,7 +93,7 @@ resource "proxmox_vm_qemu" "k3sserver" {
     ide {
       ide2 {
         cloudinit {
-          storage = local.storage
+          storage = local.k3sserver.storage
         }
       }
     }
@@ -97,7 +102,7 @@ resource "proxmox_vm_qemu" "k3sserver" {
         disk {
           size    = local.k3sserver.drive
           format  = local.format
-          storage = local.storage
+          storage = local.k3sserver.storage
         }
       }
     }
