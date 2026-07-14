@@ -93,7 +93,7 @@ resource "vault_kubernetes_auth_backend_config" "config" {
 resource "vault_kubernetes_auth_backend_role" "external_secrets" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "external-secrets-role"
-  bound_service_account_names      = ["external-secrets"]
+  bound_service_account_names      = ["external-secrets-dmz"]
   bound_service_account_namespaces = ["external-secrets"]
   token_ttl                        = 3600
   token_policies                   = ["external-secrets-policy"] # Ensure this policy exists in Vault
