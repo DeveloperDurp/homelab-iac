@@ -25,10 +25,10 @@ build_dev:
     - changes:
         - "dev/*.tf"
 
-build_prd:
-  stage: triggers
-  trigger:
-    include: prd/.gitlab/.gitlab-ci.yml
-  rules:
-    - changes:
-        - "prd/*.tf"
+#build_prd:
+#  stage: triggers
+#  trigger:
+#    include: prd/.gitlab/.gitlab-ci.yml
+#  rules:
+#    - changes:
+#        - "prd/*.tf"
