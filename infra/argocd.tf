@@ -8,10 +8,10 @@ provider "helm" {
 }
 
 provider "kubernetes" {
-  host                   = "https://${local.talos.cluster_dns}:6443"
-  client_certificate     = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-certificate-data"])
-  client_key             = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-key-data"])
-  insecure               = true
+  host               = "https://${local.talos.cluster_dns}:6443"
+  client_certificate = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-certificate-data"])
+  client_key         = base64decode(yamldecode(module.talos_infra_cluster.kubeconfig).users[0].user["client-key-data"])
+  insecure           = true
 }
 
 resource "helm_release" "argocd" {
@@ -50,8 +50,8 @@ resource "kubernetes_secret" "gitlab_repo_creds" {
   type = "Opaque"
 
   data = {
-    "type"     = "git"
-    "url"      = "https://gitlab.durp.info/durfy/homelab/gitops.git"
+    "type" = "git"
+    "url"  = "https://gitlab.durp.info/durfy/homelab/gitops.git"
   }
 }
 
