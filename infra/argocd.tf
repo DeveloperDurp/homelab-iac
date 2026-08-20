@@ -67,7 +67,7 @@ resource "kubernetes_manifest" "root_app" {
       project = "default"
       source = {
         repoURL        = "https://gitlab.durp.info/durfy/homelab/gitops.git"
-        path           = "infra-talos/argocd"
+        path           = "infra/argocd"
         targetRevision = "main"
       }
       destination = {

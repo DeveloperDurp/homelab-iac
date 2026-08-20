@@ -139,7 +139,7 @@ locals {
   templateOld = "Debian12-Template"
   k3smaster = {
     tags    = "k3s_infra"
-    count   = 3
+    count   = 0
     name    = ["master01-infra", "master02-infra", "master03-infra"]
     cores   = 2
     memory  = "4096"
@@ -150,7 +150,7 @@ locals {
   }
   k3sserver = {
     tags    = "k3s_infra"
-    count   = 3
+    count   = 0
     name    = ["node01-infra", "node02-infra", "node03-infra"]
     cores   = 4
     memory  = "16384"
