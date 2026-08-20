@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "k3smaster" {
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
   count       = local.k3smaster.count
   ciuser      = "administrator"
@@ -60,7 +60,7 @@ resource "proxmox_vm_qemu" "k3smaster" {
 
 resource "proxmox_vm_qemu" "k3sserver" {
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
   count       = local.k3sserver.count
   ciuser      = "administrator"
