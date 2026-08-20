@@ -103,7 +103,7 @@ locals {
   templateOld = "Debian12-Template"
   k3smaster = {
     tags    = "k3s_dmz"
-    count   = 3
+    count   = 0
     name    = ["master01-dmz", "master02-dmz", "master03-dmz"]
     cores   = 2
     memory  = "4096"
@@ -114,7 +114,7 @@ locals {
   }
   k3sserver = {
     tags    = "k3s_dmz"
-    count   = 3
+    count   = 0
     name    = ["node01-dmz", "node02-dmz", "node03-dmz"]
     cores   = 4
     memory  = "8192"
@@ -125,7 +125,7 @@ locals {
   }
   openVPN = {
     tags    = "openvpn"
-    count   = 1
+    count   = 0
     name    = ["openVPN"]
     cores   = 2
     memory  = "4096"
@@ -136,7 +136,7 @@ locals {
   }
   matrix = {
     tags    = "matrix"
-    count   = 1
+    count   = 0
     name    = ["matrix"]
     cores   = 2
     memory  = "4096"

@@ -135,7 +135,7 @@ resource "vault_policy" "pki_policy" {
   name   = "${local.talos.cluster_name}-pki-issuer-policy"
   policy = <<EOT
 # Allow tokens to sign CSRs against a specific PKI role
-path "pki/sign/durp-info" {
+path "pki/sign/issue-homelab-certs" {
   capabilities = ["create", "update"]
 }
 
