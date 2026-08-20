@@ -5,3 +5,5 @@
 .junie/memory
 .env-test
 modules/talos-cluster/.terraform.lock.hcl
+*/kubeconfig.yaml
+.omo/

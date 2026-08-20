@@ -15,9 +15,9 @@ variable "unifi_api_key" {
 }
 
 resource "unifi_dns_record" "unraid_dev" {
-  name        = "unraid.dev.durp.loc"
+  name        = "unraid.dmz.durp.loc"
   record_type = "A"
-  value       = "192.168.10.200"
+  value       = "192.168.98.200"
   enabled     = true
   ttl         = 300
 }

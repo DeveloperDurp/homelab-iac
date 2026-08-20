@@ -25,7 +25,7 @@ locals {
   vlan      = 11
   k3smaster = {
     tags    = "k3s_prd"
-    count   = 3
+    count   = 0
     name    = ["master01-prd", "master02-prd", "master03-prd"]
     cores   = 2
     memory  = "4096"
@@ -36,7 +36,7 @@ locals {
   }
   k3sserver = {
     tags    = "k3s_prd"
-    count   = 3
+    count   = 0
     name    = ["node01-prd", "node02-prd", "node03-prd"]
     cores   = 4
     memory  = "8192"
