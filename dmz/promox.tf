@@ -1,3 +1,27 @@
+provider "proxmox" {
+  pm_parallel                 = 1
+  pm_tls_insecure             = true
+  pm_api_url                  = var.pm_api_url
+  pm_user                     = var.pm_user
+  pm_password                 = var.pm_password
+  pm_debug                    = false
+  pm_minimum_permission_check = false
+}
+
+variable "pm_api_url" {
+  description = "API URL to Proxmox provider"
+  type        = string
+}
+
+variable "pm_password" {
+  description = "Passowrd to Proxmox provider"
+  type        = string
+}
+
+variable "pm_user" {
+  description = "UIsername to Proxmox provider"
+  type        = string
+}
 
 module "talos_control" {
   source = "../modules/proxmox-vm"
@@ -35,37 +59,4 @@ module "talos_worker" {
   ip_address  = local.worker.ip[count.index]
   gateway     = local.gateway
   nameserver  = local.dnsserver
-}
-
-module "talos_infra_cluster" {
-  source = "../modules/talos-cluster"
-
-  gitlab_repo_id = local.gitlab_repo_id
-
-  cluster_name     = local.talos.cluster_name
-  cluster_endpoint = "https://${local.talos.cluster_dns}:6443"
-
-  control_plane_ips = local.control.ip
-  worker_ips        = local.worker.ip
-  cluster_vip       = local.talos.cluster_vip
-
-  # infra specific tweaks
-  allow_scheduling_on_control_planes = false
-
-  # Ensure VMs are created before Talos tries to configure them
-  depends_on = [
-    module.talos_control,
-    module.talos_worker
-  ]
-}
-
-# Output the kubeconfig for manual verification or CI/CD
-output "infra_kubeconfig" {
-  value     = module.talos_infra_cluster.kubeconfig
-  sensitive = true
-}
-
-output "infra_talosconfig" {
-  value     = module.talos_infra_cluster.talos_config
-  sensitive = true
 }

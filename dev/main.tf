@@ -30,7 +30,7 @@ terraform {
 
 locals {
   gitlab_repo_id = "7"
-  template       = "tails-Template"
+  template       = "talos-Template"
   format         = "raw"
   dnsserver      = "192.168.${local.vlan}.1"
   gateway        = "192.168.${local.vlan}.1"

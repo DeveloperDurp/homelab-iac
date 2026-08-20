@@ -13,15 +13,6 @@ variable "pm_user" {
   type        = string
 }
 
-variable "unifi_api_url" {
-  description = "api key for unifi"
-  type        = string
-}
-
-variable "unifi_api_key" {
-  description = "api key for unifi"
-  type        = string
-}
 
 provider "gitlab" {
   token    = var.gitlab_token

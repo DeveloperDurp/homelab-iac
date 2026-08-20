@@ -4,7 +4,7 @@ resource "proxmox_vm_qemu" "openVPN" {
   vmid        = "${local.vlan}${local.openVPN.ip[count.index]}"
   name        = local.openVPN.name[count.index]
   target_node = local.openVPN.node[count.index]
-  clone       = local.template
+  clone       = local.templateOld
   tags        = local.openVPN.tags
   qemu_os     = "l26"
   full_clone  = true

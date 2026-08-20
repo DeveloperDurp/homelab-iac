@@ -27,7 +27,7 @@ resource "proxmox_vm_qemu" "vm" {
   agent   = 1
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 
   cpu {
