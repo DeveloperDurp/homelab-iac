@@ -97,7 +97,7 @@ resource "vault_policy" "external_secrets" {
   name   = "external-secrets-policy"
   policy = <<EOT
 path "kv/*" {
-  capabilities = ["read"]
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
 EOT
 }
