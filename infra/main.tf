@@ -86,17 +86,23 @@ locals {
   }
   worker = {
     tags  = "worker_infra"
-    count = 3
+    count = 6
     name = [
       "worker01-infra",
       "worker02-infra",
-      "worker03-infra"
+      "worker03-infra",
+      "worker04-infra",
+      "worker05-infra",
+      "worker06-infra"
     ]
-    cores   = 4
+    cores   = 6
     memory  = "16384"
     drive   = 120
     storage = "cache-domains"
     node = [
+      "mothership",
+      "overlord",
+      "vanguard",
       "mothership",
       "overlord",
       "vanguard"
@@ -104,12 +110,18 @@ locals {
     vmid = [
       "${local.vlan}24",
       "${local.vlan}25",
-      "${local.vlan}26"
+      "${local.vlan}26",
+      "${local.vlan}27",
+      "${local.vlan}28",
+      "${local.vlan}29"
     ]
     ip = [
       "192.168.${local.vlan}.24",
       "192.168.${local.vlan}.25",
-      "192.168.${local.vlan}.26"
+      "192.168.${local.vlan}.26",
+      "192.168.${local.vlan}.27",
+      "192.168.${local.vlan}.28",
+      "192.168.${local.vlan}.29"
     ]
   }
   hermes = {
