@@ -116,6 +116,21 @@ path "pki/issue/*" {
 EOT
 }
 
+resource "random_password" "harbor_postgresql" {
+  length           = 32
+  special          = true
+  override_special = "!@#$%&*()-_=+"
+}
+
+resource "vault_kv_secret_v2" "harbor_postgresql" {
+  mount = "kv"
+  name  = "harbor/postgresql"
+
+  data_json = jsonencode({
+    password = random_password.harbor_postgresql.result
+  })
+}
+
 # 6. Bind the cert-manager vault-issuer ServiceAccount to the Vault Policy
 resource "vault_kubernetes_auth_backend_role" "pki_issuer" {
   backend                          = vault_auth_backend.kubernetes.path
