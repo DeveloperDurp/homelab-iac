@@ -134,6 +134,17 @@ locals {
     node    = ["mothership"]
     ip      = ["20"]
   }
+  netbird = {
+    tags    = "netbird"
+    count   = 1
+    name    = ["netbird"]
+    cores   = 2
+    memory  = "4096"
+    drive   = 20
+    storage = "cache-domains"
+    node    = ["overlord"]
+    ip      = ["30"]
+  }
   matrix = {
     tags    = "matrix"
     count   = 0
