@@ -11,7 +11,7 @@ variables:
   ENVIRONMENT_NAME: infra
 
 image:
-  name: registry.durp.info/opentofu/opentofu:latest
+  name: harbor.durp.info/github/opentofu/opentofu:latest
   entrypoint: [""]
 
 .tf-init:

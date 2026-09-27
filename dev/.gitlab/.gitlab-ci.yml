@@ -11,7 +11,7 @@ variables:
   JSON_PLAN_FILE: tfplan.json
 
 image:
-  name: registry.durp.info/opentofu/opentofu:latest
+  name: harbor.durp.info/github/opentofu/opentofu:latest
   entrypoint: [""]
 
 .tf-init:
